@@ -8,7 +8,7 @@ import ModalDeleteSubmitButton from './ModalDeleteSubmitButton'
 const ModalDelete = memo(({ data, handleDelete, onClose }) => {
   return (
     <Dialog open={!!data} onClose={onClose} className="fixed inset-0 z-50 grid place-items-center" >
-      <Dialog.Overlay className="fixed inset-0 z-10 bg-black/50 grid place-items-center"/>
+      <Dialog.Overlay className="fixed inset-0 z-10 bg-black/50"/>
       <div className="relative grid place-items-center bg-white p-12 pt-16 rounded-2xl z-20" data-cy="modal-delete">
         <Suspense fallback={<div className="bg-gray-50 rounded-full h-32 w-32"></div>}>
           <ModalDeleteIcon/>

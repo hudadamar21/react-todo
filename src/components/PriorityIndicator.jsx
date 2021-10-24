@@ -10,7 +10,7 @@ const PriorityIndicator = memo((props) => {
       : props.priority === 'very-low' ? 'bg-purple-500'
       : 'bg-white'
 
-  return <div {...props} className={`${classIndicator} rounded-full h-4 w-4`}></div>
+  return <div {...props} className={`${classIndicator} rounded-full h-2.5 w-2.5`}></div>
 })
 
 export default PriorityIndicator

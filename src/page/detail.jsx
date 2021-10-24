@@ -28,9 +28,10 @@ function DetailItem() {
   let params = useParams();
 
   useEffect( async () => {
-    const { data } = await axios.get(
+    const res = await fetch(
       `https://todo.api.devcode.gethired.id/activity-groups/${params.id}`
     )
+    const data = await res.json()
     setActivityTitle(data.title)
     setTodos(data.todo_items)
 
@@ -106,10 +107,7 @@ function DetailItem() {
               />
           }
           <button onClick={editActivityTitle ? updateTitleActivity : () => setEditActivityTitle(true)} data-cy="todo-title-edit-button">
-            <svg className="w-9 h-9" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M4 19.9998H8L18.5 9.49981C19.0304 8.96938 19.3284 8.24996 19.3284 7.49981C19.3284 6.74967 19.0304 6.03025 18.5 5.49981C17.9696 4.96938 17.2501 4.67139 16.5 4.67139C15.7499 4.67139 15.0304 4.96938 14.5 5.49981L4 15.9998V19.9998Z" stroke="#A4A4A4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-              <path d="M13.5 6.49982L17.5 10.4998" stroke="#A4A4A4" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+            <svg className="w-7 h-7" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83l3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z" fill="#666"></path></svg>
           </button>
         </div>
         <div className="flex items-center gap-5">
@@ -119,7 +117,7 @@ function DetailItem() {
       </div>
       {
         todos.length
-        ? <div className="grid grid-cols-1 gap-3 pb-10">
+        ? <div>
             {todos.map(todo => (
               <Suspense key={todo.id} fallback={<div className="bg-gray-50 rounded-md h-12 w-full"></div>}>
                 <TodoItem 

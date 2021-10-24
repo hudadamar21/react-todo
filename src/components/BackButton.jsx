@@ -4,11 +4,8 @@ import { Link } from "react-router-dom";
 const BackButton = memo(() => {
   return (
     <Link to="/">
-      <div className="grid place-items-center h-12 w-12 rounded-full hover:bg-gray-200 cursor-pointer" data-cy="todo-back-button">
-        <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M6.6665 16L14.6665 24" stroke="#111111" strokeWidth="5" strokeLinecap="square"/>
-          <path d="M6.6665 16L14.6665 8" stroke="#111111" strokeWidth="5" strokeLinecap="square"/>
-        </svg>
+      <div className="cursor-pointer" data-cy="todo-back-button">
+      <svg className="w-7 h-7" viewBox="0 0 24 24"><path d="M11.67 3.87L9.9 2.1L0 12l9.9 9.9l1.77-1.77L3.54 12z" fill="currentColor"></path></svg>
       </div>
     </Link>
   )

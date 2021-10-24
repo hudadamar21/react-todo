@@ -3,6 +3,7 @@ import { useEffect, useState, lazy, Suspense } from "react"
 
 import ModalDelete from "../components/ModalDelete"
 import Alert from "../components/Alert"
+import AddButton from "../components/AddButton"
 
 const ActivityEmptyState = lazy(() => import("../components/ActivityEmptyState"))
 const AcCard = lazy(() => import("../components/AcCard"))
@@ -13,29 +14,21 @@ function Home() {
   const [ alertMessage, setAlertMessage] = useState(null)
 
   useEffect( async () => {
-    const { data } = await axios.get(
+    const res = await fetch(
       "https://todo.api.devcode.gethired.id/activity-groups?email=hudadamar21%40gmail.com"
     )
+    const data = await res.json()
     setActivity(data.data)
-    return () => [
-      setActivity([])
-    ]
+    return () => setActivity([])
   }, [])
 
-  const getActivity = async () => {
-    const res = await axios.get(
-      "https://todo.api.devcode.gethired.id/activity-groups?email=hudadamar21%40gmail.com"
-    )
-    setActivity(res.data.data)
-  }
-
   const createActivity = async () => {
-    await axios.post(
+    const { data } = await axios.post(
       "https://todo.api.devcode.gethired.id/activity-groups", { 
       title: 'New Activity', 
       email: 'hudadamar21@gmail.com' 
     })
-    getActivity() 
+    setActivity(val => [data, ...val])
   }
   
   const openDeleteModal = (e, ac) => {
@@ -48,7 +41,8 @@ function Home() {
     await axios.delete(
       `https://todo.api.devcode.gethired.id/activity-groups/${deleteActivityData.id}`
     )
-    getActivity()
+    const result = activity.filter(ac => ac.id !== deleteActivityData.id)
+    setActivity(result)
     setDeleteActivityData(null)
     setAlertMessage('Activity berhasil dihapus')
   }
@@ -67,10 +61,7 @@ function Home() {
           <h1 className="text-4xl font-bold" data-cy="activity-title">
             Activity
           </h1>
-          <button onClick={createActivity} className="flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-white font-bold text-xl" data-cy="activity-add-button">
-            <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="white" viewBox="0 0 24 24" stroke="white"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
-            Tambah
-          </button>
+          <AddButton onClick={createActivity} dataCy="activity-add-button" />
         </div>
         {
           activity.length
