@@ -1,5 +1,5 @@
 import axios from "axios"
-import { useEffect, useState, lazy } from "react"
+import { useEffect, useState, lazy, Suspense } from "react"
 
 import acEmptyState from "../assets/images/ActivityEmptyState.svg"
 const AcCard = lazy(() => import("../components/AcCard"))
@@ -80,12 +80,14 @@ function Home() {
           activity.length
           ? <div className="grid gap-3 pb-10 grid-cols-4">
               {activity.map((ac, index) => (
-                <AcCard 
-                  key={ac.id} 
-                  index={index} 
-                  onDelete={(e) => openDeleteModal(e, ac)}
-                  {...ac} 
-                />
+                <Suspense key={ac.id} fallback={<div className="bg-white rounded-xl w-full h-32"></div>}>
+                  <AcCard 
+                    key={ac.id} 
+                    index={index} 
+                    onDelete={(e) => openDeleteModal(e, ac)}
+                    {...ac} 
+                  />
+                </Suspense>
               ))}
             </div>
           : <div className="text-center" data-cy="activity-empty-state">
@@ -95,17 +97,21 @@ function Home() {
 
       {
         deleteActivityData &&
-        <ModalDelete
-        data={deleteActivityData}
-        onClose={() => setDeleteActivityData(null)}
-        handleDelete={handleDeleteActivity}
-        />
+        <Suspense fallback={<div className="bg-white rounded-xl w-32 h-32"></div>}>
+          <ModalDelete
+          data={deleteActivityData}
+          onClose={() => setDeleteActivityData(null)}
+          handleDelete={handleDeleteActivity}
+          />
+        </Suspense>
       }
 
-      <Alert 
-        message={alertMessage}
-        onClose={() => setAlertMessage('')}
+      <Suspense fallback={<div className="bg-white rounded-xl w-32 h-32"></div>}>
+        <Alert 
+          message={alertMessage}
+          onClose={() => setAlertMessage('')}
         />
+      </Suspense>
       </main>
     </section>
   )

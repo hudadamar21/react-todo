@@ -1,12 +1,12 @@
-import { useEffect, useState, lazy } from "react"
+import { useEffect, useState, lazy, Suspense } from "react"
 import { useParams } from "react-router-dom";
 import axios from "axios"
 
 import sorting from "../utils/sorting";
 import todoEmptyState from "../assets/images/TodoEmptyState.svg"
+import MainLayout from '../layouts/MainLayout'
 
 const TodoSorter = lazy(() => import("../components/TodoSorter"))
-const MainLayout = lazy(() => import('../layouts/MainLayout'))
 const PageTitle = lazy(() => import('../components/PageTitle'))
 const AddButton = lazy(() => import('../components/AddButton'))
 const FormModal = lazy(() => import('../components/FormModal'))
@@ -102,11 +102,15 @@ function DetailItem() {
     <MainLayout>
       <div className="flex items-center justify-between py-10">
         <div className="flex items-center gap-3">
-          <BackButton/>
+          <Suspense fallback={<div className="bg-white h-10 w-10"></div>}>
+            <BackButton/>
+          </Suspense>
           {!editActivityTitle 
-            ? <PageTitle onClick={() => setEditActivityTitle(true)} dataCy="todo-title">
-                {activityTitle}
-              </PageTitle>
+            ? <Suspense fallback={<div className="bg-white h-3 w-64"></div>}> 
+                <PageTitle onClick={() => setEditActivityTitle(true)} dataCy="todo-title">
+                  {activityTitle}
+                </PageTitle>
+              </Suspense>
             : <input 
                 onBlur={updateTitleActivity} 
                 onInput={(e) => setActivityTitle(e.target.value)} 
@@ -124,22 +128,28 @@ function DetailItem() {
           </button>
         </div>
         <div className="flex items-center gap-5">
-          <TodoSorter selected={sortType} getValue={changeSortBy}/>
-          <AddButton onClick={() => setOpenFormModal(true)} dataCy="todo-add-button" />
+          <Suspense fallback={<div className="bg-white rounded-full h-10 w-10"></div>}>
+            <TodoSorter selected={sortType} getValue={changeSortBy}/> 
+          </Suspense>
+          <Suspense fallback={<div className="bg-white rounded-md h-10 w-20"></div>}>
+            <AddButton onClick={() => setOpenFormModal(true)} dataCy="todo-add-button" />
+          </Suspense>
         </div>
       </div>
       {
         todos.length
         ? <div className="grid grid-cols-1 gap-3 pb-10">
             {todos.map(todo => (
-              <TodoItem 
-                key={todo.id}
-                todo={todo}
-                onDelete={openDeleteModal}
-                onChangeIsActive={() => 
-                  handleChangeIsActive(todo.id, { is_active: !todo.is_active})
-                }
-              />
+              <Suspense key={todo.id} fallback={<div className="bg-white rounded-md h-12 w-full"></div>}>
+                <TodoItem 
+                  key={todo.id}
+                  todo={todo}
+                  onDelete={openDeleteModal}
+                  onChangeIsActive={() => 
+                    handleChangeIsActive(todo.id, { is_active: !todo.is_active})
+                  }
+                />
+              </Suspense>
             ))}  
           </div>
         :  <div data-cy="todo-empty-state" className="text-center">
@@ -147,26 +157,31 @@ function DetailItem() {
           </div>  
       }  
 
-    <FormModal
-      isOpen={openFormModal}
-      onClose={() => setOpenFormModal(false)}
-      onSubmitTodo={createTodo}
-    />
+      <Suspense fallback={<div className="w-10 h-10 bg-white"></div>}>
+        <FormModal
+          isOpen={openFormModal}
+          onClose={() => setOpenFormModal(false)}
+          onSubmitTodo={createTodo}
+        />
+      </Suspense>
 
     {
       !!deleteTodoData &&
-      <ModalDelete
-        data={deleteTodoData}
-        onClose={() => setDeleteTodoData(null)}
-        handleDelete={handleDeleteTodo}
-        
-      />
+      <Suspense fallback={<div className="w-10 h-10 bg-white"></div>}>
+        <ModalDelete
+          data={deleteTodoData}
+          onClose={() => setDeleteTodoData(null)}
+          handleDelete={handleDeleteTodo}
+        />
+      </Suspense>
     }
 
-    <Alert 
-      message={alertMessage}
-      onClose={() => setAlertMessage('')}
-    />
+    <Suspense fallback={<div className="w-10 h-10 bg-white"></div>}>
+      <Alert 
+        message={alertMessage}
+        onClose={() => setAlertMessage('')}
+      />
+    </Suspense>
     </MainLayout>
   )
 }
