@@ -102,11 +102,11 @@ function DetailItem() {
     <MainLayout>
       <div className="flex items-center justify-between py-10">
         <div className="flex items-center gap-3">
-          <Suspense fallback={<div className="bg-gray-100 h-10 w-10"></div>}>
+          <Suspense fallback={<div className="bg-gray-50 h-10 w-10"></div>}>
             <BackButton/>
           </Suspense>
           {!editActivityTitle 
-            ? <Suspense fallback={<div className="bg-gray-100 h-10 w-64"></div>}> 
+            ? <Suspense fallback={<div className="bg-gray-50 h-10 w-64"></div>}> 
                 <PageTitle onClick={() => setEditActivityTitle(true)} dataCy="todo-title">
                   {activityTitle}
                 </PageTitle>
@@ -128,10 +128,10 @@ function DetailItem() {
           </button>
         </div>
         <div className="flex items-center gap-5">
-          <Suspense fallback={<div className="bg-gray-100 rounded-full h-10 w-10"></div>}>
+          <Suspense fallback={<div className="bg-gray-50 rounded-full h-10 w-10"></div>}>
             <TodoSorter selected={sortType} getValue={changeSortBy}/> 
           </Suspense>
-          <Suspense fallback={<div className="bg-gray-100 rounded-md h-10 w-20"></div>}>
+          <Suspense fallback={<div className="bg-gray-50 rounded-md h-10 w-20"></div>}>
             <AddButton onClick={() => setOpenFormModal(true)} dataCy="todo-add-button" />
           </Suspense>
         </div>
@@ -140,7 +140,7 @@ function DetailItem() {
         todos.length
         ? <div className="grid grid-cols-1 gap-3 pb-10">
             {todos.map(todo => (
-              <Suspense key={todo.id} fallback={<div className="bg-gray-100 rounded-md h-12 w-full"></div>}>
+              <Suspense key={todo.id} fallback={<div className="bg-gray-50 rounded-md h-12 w-full"></div>}>
                 <TodoItem 
                   key={todo.id}
                   todo={todo}
@@ -152,7 +152,7 @@ function DetailItem() {
               </Suspense>
             ))}  
           </div>
-        :  <Suspense fallback={<div className="bg-gray-100 h-64 w-1/2"></div>}>
+        :  <Suspense fallback={<div className="bg-gray-50 h-64 w-1/2"></div>}>
             <TodoEmptyState/>
           </Suspense> 
       }  

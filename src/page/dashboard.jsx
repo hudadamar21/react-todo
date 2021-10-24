@@ -12,19 +12,19 @@ function Home() {
   const [ deleteActivityData, setDeleteActivityData] = useState(null)
   const [ alertMessage, setAlertMessage] = useState(null)
 
-  useEffect( async () => {
-    try {
-      const { data } = await axios.get(
-        "https://todo.api.devcode.gethired.id/activity-groups?email=hudadamar21%40gmail.com"
-      )
-      setActivity(data.data)
-    } catch (error) {
-      console.log(error)
-    }
-    return () => [
-      setActivity([])
-    ]
-  }, [])
+  // useEffect( async () => {
+  //   try {
+  //     const { data } = await axios.get(
+  //       "https://todo.api.devcode.gethired.id/activity-groups?email=hudadamar21%40gmail.com"
+  //     )
+  //     setActivity(data.data)
+  //   } catch (error) {
+  //     console.log(error)
+  //   }
+  //   return () => [
+  //     setActivity([])
+  //   ]
+  // }, [])
 
   const getActivity = async () => {
     const res = await axios.get(
@@ -94,7 +94,7 @@ function Home() {
                 </Suspense>
               ))}
             </div>
-          : <Suspense fallback={<div className="bg-gray-100 h-64 w-1/2"></div>}>
+          : <Suspense fallback={<div className="bg-gray-50 h-64 w-1/2"></div>}>
               <ActivityEmptyState/>
             </Suspense> 
         }
