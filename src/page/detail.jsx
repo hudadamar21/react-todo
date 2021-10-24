@@ -1,6 +1,5 @@
 import { useEffect, useState, lazy } from "react"
 import { useParams } from "react-router-dom";
-import axios from "axios"
 
 import sorting from "../utils/sorting";
 import todoEmptyState from "../assets/images/TodoEmptyState.svg"
@@ -28,9 +27,10 @@ function DetailItem() {
   let params = useParams();
 
   useEffect( async () => {
-    const { data } = await axios.get(
+    const res = await fetch(
       `https://todo.api.devcode.gethired.id/activity-groups/${params.id}`
     )
+    const data = await res.json()
     setActivityTitle(data.title)
     setTodos(data.todo_items)
   }, [])
@@ -41,20 +41,22 @@ function DetailItem() {
   }
 
   const createTodo = async (name, priority) => {
-    console.log(name, priority);
-   if(!name) {
-     alert('title belum diisi')
-   } else {
-    if(params.id) {
-      const res = await axios.post("https://todo.api.devcode.gethired.id/todo-items", {
-        activity_group_id: params.id, 
-        title: name, 
-        priority,
+    try {
+      const res = await fetch("https://todo.api.devcode.gethired.id/todo-items", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          activity_group_id: params.id, 
+          title: name, 
+          priority,
+        })
       })
-      setTodos(todo => [res.data, ...todo])
+      const data = await res.json()
+      setTodos(todo => [data, ...todo])
       setOpenFormModal(false)
+    } catch (error) {
+      
     }
-   }
   }
 
   const openDeleteModal = (todo) => {
@@ -62,17 +64,17 @@ function DetailItem() {
   }
 
   const handleChangeIsActive = async (id, data) => {
-    const res = await updateTodo(id, data)
+    const resData = await updateTodo(id, data)
     setTodos(todos => todos.map(todo => {
-      return todo.id === id ? { ...todo, is_active: res.data.is_active } : todo
+      return todo.id === id ? { ...todo, is_active: resData.is_active } : todo
     }))
   }
 
   const handleDeleteTodo = async () => {
     try {
-      await axios.delete(
-        `https://todo.api.devcode.gethired.id/todo-items/${deleteTodoData.id}`
-      )
+      await fetch(`https://todo.api.devcode.gethired.id/todo-items/${deleteTodoData.id}`, {
+        method: 'DELETE'
+      })
       const newAc = todos.filter(ac => ac.id !== deleteTodoData.id)
       setTodos(newAc)
       setDeleteTodoData(null)
@@ -83,12 +85,21 @@ function DetailItem() {
   }
 
   const updateTodo = async (id, data) => {
-    return await axios.patch(`https://todo.api.devcode.gethired.id/todo-items/${id}`, data)
+    const res = await fetch(`https://todo.api.devcode.gethired.id/todo-items/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    return await res.json()
   }
 
   const updateTitleActivity = async () => {
-    const { data } = await axios.patch(`https://todo.api.devcode.gethired.id/activity-groups/${params.id}`, { title: activityTitle })
-    console.log(data);
+    const res = await fetch(`https://todo.api.devcode.gethired.id/activity-groups/${params.id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ title: activityTitle })
+    })
+    const data = await res.json()
     setActivityTitle(data.title)
     setEditActivityTitle(false)
   }
