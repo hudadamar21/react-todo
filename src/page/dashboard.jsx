@@ -31,12 +31,16 @@ export default function Home() {
   }
 
   const createActivity = async () => {
-    const data = await axios.post(
-      "https://todo.api.devcode.gethired.id/activity-groups", { 
-      title: 'New Activity', 
-      email: 'hudadamar21@gmail.com' 
-    })
-    setActivity(val => [data.data, ...val])
+    try {
+      await axios.post(
+        "https://todo.api.devcode.gethired.id/activity-groups", { 
+        title: 'New Activity', 
+        email: 'hudadamar21@gmail.com' 
+      })
+      getActivity() 
+    } catch (error) {
+      console.log(error);
+    }
   }
   
   const openDeleteModal = (e, ac) => {
@@ -58,17 +62,17 @@ export default function Home() {
     <section id="dashboard">
       <header className="bg-primary w-full">
         <div className="container py-8" data-cy="header-background">
-          <h1 data-cy="header-title">
+          <h1 className="text-3xl font-bold text-white" data-cy="header-title">
             TO DO LIST APP
           </h1>
         </div>
       </header>
       <main className="container">
         <div className="flex items-center justify-between py-10">
-          <h1 data-cy="activity-title">
+          <h1 className="text-4xl font-bold" data-cy="activity-title">
             Activity
           </h1>
-          <button onClick={createActivity} data-cy="activity-add-button">
+          <button onClick={createActivity} className="flex items-center gap-3 px-8 py-4 rounded-full bg-primary text-white font-bold text-xl" data-cy="activity-add-button">
             <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6" fill="white" viewBox="0 0 24 24" stroke="white"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
             Tambah
           </button>
