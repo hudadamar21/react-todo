@@ -2,8 +2,8 @@ import { Dialog } from '@headlessui/react'
 import { lazy, memo, Suspense } from 'react'
 
 const ModalDeleteIcon = lazy(() => import('./ModalDeleteIcon'))
-const ModalDeleteCancelButton = lazy(() => import('./ModalDeleteCancelButton'))
-const ModalDeleteSubmitButton = lazy(() => import('./ModalDeleteSubmitButton'))
+import ModalDeleteCancelButton from './ModalDeleteCancelButton'
+import ModalDeleteSubmitButton from './ModalDeleteSubmitButton'
 
 const ModalDelete = memo(({ data, handleDelete, onClose }) => {
   return (
@@ -20,12 +20,8 @@ const ModalDelete = memo(({ data, handleDelete, onClose }) => {
         </Dialog.Title>
 
         <div className="grid grid-flow-col gap-5 w-full px-10">
-        <Suspense fallback={<div className="bg-gray-50 rounded-full h-16 w-32"></div>}>
           <ModalDeleteCancelButton onClose={onClose} />
-        </Suspense>
-        <Suspense fallback={<div className="bg-gray-50 rounded-full h-16 w-32"></div>}>
           <ModalDeleteSubmitButton handleDelete={handleDelete} />
-        </Suspense>
         </div>
       </div>
     </Dialog>

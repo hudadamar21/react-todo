@@ -13,14 +13,10 @@ function Home() {
   const [ alertMessage, setAlertMessage] = useState(null)
 
   useEffect( async () => {
-    try {
-      const { data } = await axios.get(
-        "https://todo.api.devcode.gethired.id/activity-groups?email=hudadamar21%40gmail.com"
-      )
-      setActivity(data.data)
-    } catch (error) {
-      console.log(error)
-    }
+    const { data } = await axios.get(
+      "https://todo.api.devcode.gethired.id/activity-groups?email=hudadamar21%40gmail.com"
+    )
+    setActivity(data.data)
     return () => [
       setActivity([])
     ]
@@ -34,16 +30,12 @@ function Home() {
   }
 
   const createActivity = async () => {
-    try {
-      await axios.post(
-        "https://todo.api.devcode.gethired.id/activity-groups", { 
-        title: 'New Activity', 
-        email: 'hudadamar21@gmail.com' 
-      })
-      getActivity() 
-    } catch (error) {
-      console.log(error);
-    }
+    await axios.post(
+      "https://todo.api.devcode.gethired.id/activity-groups", { 
+      title: 'New Activity', 
+      email: 'hudadamar21@gmail.com' 
+    })
+    getActivity() 
   }
   
   const openDeleteModal = (e, ac) => {

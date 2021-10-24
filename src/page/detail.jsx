@@ -7,10 +7,10 @@ import MainLayout from '../layouts/MainLayout'
 import ModalDelete from '../components/ModalDelete'
 import FormModal from '../components/FormModal'
 import Alert from '../components/Alert'
+import PageTitle from '../components/PageTitle'
 
 const TodoEmptyState = lazy(() => import("../components/TodoEmptyState"))
 const TodoSorter = lazy(() => import("../components/TodoSorter"))
-const PageTitle = lazy(() => import('../components/PageTitle'))
 const AddButton = lazy(() => import('../components/AddButton'))
 const BackButton = lazy(() => import('../components/BackButton'))
 const TodoItem = lazy(() => import('../components/TodoItem'))
@@ -46,20 +46,13 @@ function DetailItem() {
   }
 
   const createTodo = async (name, priority) => {
-    console.log(name, priority);
-   if(!name) {
-     alert('title belum diisi')
-   } else {
-    if(params.id) {
-      const res = await axios.post("https://todo.api.devcode.gethired.id/todo-items", {
-        activity_group_id: params.id, 
-        title: name, 
-        priority,
-      })
-      setTodos(todo => [res.data, ...todo])
-      setOpenFormModal(false)
-    }
-   }
+    const res = await axios.post("https://todo.api.devcode.gethired.id/todo-items", {
+      activity_group_id: params.id, 
+      title: name, 
+      priority,
+    })
+    setTodos(todo => [res.data, ...todo])
+    setOpenFormModal(false)
   }
 
   const openDeleteModal = (todo) => {
@@ -74,17 +67,13 @@ function DetailItem() {
   }
 
   const handleDeleteTodo = async () => {
-    try {
-      await axios.delete(
-        `https://todo.api.devcode.gethired.id/todo-items/${deleteTodoData.id}`
-      )
-      const newAc = todos.filter(ac => ac.id !== deleteTodoData.id)
-      setTodos(newAc)
-      setDeleteTodoData(null)
-      setAlertMessage('Todo berhasil dihapus')
-    } catch (error) {
-      console.log(error)
-    }
+    await axios.delete(
+      `https://todo.api.devcode.gethired.id/todo-items/${deleteTodoData.id}`
+    )
+    const newAc = todos.filter(ac => ac.id !== deleteTodoData.id)
+    setTodos(newAc)
+    setDeleteTodoData(null)
+    setAlertMessage('Todo berhasil dihapus')
   }
 
   const updateTodo = async (id, data) => {
@@ -106,11 +95,9 @@ function DetailItem() {
             <BackButton/>
           </Suspense>
           {!editActivityTitle 
-            ? <Suspense fallback={<div className="bg-gray-50 h-10 w-64"></div>}> 
-                <PageTitle onClick={() => setEditActivityTitle(true)} dataCy="todo-title">
-                  {activityTitle}
-                </PageTitle>
-              </Suspense>
+            ? <PageTitle onClick={() => setEditActivityTitle(true)} dataCy="todo-title">
+                {activityTitle}
+              </PageTitle>
             : <input 
                 onBlur={updateTitleActivity} 
                 onInput={(e) => setActivityTitle(e.target.value)} 
