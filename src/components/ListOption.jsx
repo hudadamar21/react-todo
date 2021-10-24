@@ -1,5 +1,6 @@
+import { lazy } from 'react'
 import { Listbox } from "@headlessui/react";
-import PriorityIndicator from './PriorityIndicator'
+const PriorityIndicator = lazy(() => import('./PriorityIndicator'))
 
 function ListOption({ lists, data, onChange }) {
 

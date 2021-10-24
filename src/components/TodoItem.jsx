@@ -1,5 +1,6 @@
+import { lazy } from "react"
 
-import PriorityIndicator from './PriorityIndicator'
+const PriorityIndicator =  lazy(() => import('./PriorityIndicator'))
 
 function TodoItem({ todo, onChangeIsActive, onDelete }) {
 

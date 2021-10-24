@@ -1,20 +1,19 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState, lazy } from "react"
 import { useParams } from "react-router-dom";
 import axios from "axios"
 
 import sorting from "../utils/sorting";
-import TodoSorter from "../components/TodoSorter"
-
 import todoEmptyState from "../assets/images/TodoEmptyState.svg"
 
-import MainLayout  from '../layouts/MainLayout'
-import PageTitle  from '../components/PageTitle'
-import AddButton  from '../components/AddButton'
-import FormModal  from '../components/FormModal'
-import BackButton  from '../components/BackButton'
-import TodoItem  from '../components/TodoItem'
-import ModalDelete  from '../components/ModalDelete'
-import Alert  from '../components/Alert'
+const TodoSorter = lazy(() => import("../components/TodoSorter"))
+const MainLayout = lazy(() => import('../layouts/MainLayout'))
+const PageTitle = lazy(() => import('../components/PageTitle'))
+const AddButton = lazy(() => import('../components/AddButton'))
+const FormModal = lazy(() => import('../components/FormModal'))
+const BackButton = lazy(() => import('../components/BackButton'))
+const TodoItem = lazy(() => import('../components/TodoItem'))
+const ModalDelete = lazy(() => import('../components/ModalDelete'))
+const Alert = lazy(() => import('../components/Alert'))
 
 function DetailItem() {
   const [ todos, setTodos ] = useState([])

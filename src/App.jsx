@@ -1,17 +1,17 @@
-import React from "react";
+import { Suspense, lazy } from "react";
 import {
   BrowserRouter as Router,
   Switch,
   Route
 } from "react-router-dom";
 
-import Dasboard from "./page/dashboard"
-import Detail from "./page/detail"
+const Dasboard =  lazy(() => import("./page/dashboard"))
+const Detail =  lazy(() => import("./page/detail"))
 
 function App() {
   return (
     <Router>
-      <div>
+      <Suspense fallback={<div>Loading...</div>}>
         <Switch>
           <Route path="/detail/:id">
             <Detail />
@@ -20,7 +20,7 @@ function App() {
             <Dasboard />
           </Route>
         </Switch>
-      </div>
+      </Suspense>
     </Router>
   )
 }

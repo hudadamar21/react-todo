@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, lazy } from "react";
 import { Dialog } from "@headlessui/react";
 import priorityList from "../data/priority";
 
-import ListOption from './ListOption'
+const ListOption = lazy(() => import('./ListOption'))
 
 function FormModal({ isOpen, onClose, onSubmitTodo }) {
   const [ name, setName ] = useState('')

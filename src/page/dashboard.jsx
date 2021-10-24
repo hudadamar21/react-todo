@@ -1,11 +1,11 @@
 import axios from "axios"
-import React, { useEffect, useState } from "react"
+import { useEffect, useState, lazy } from "react"
 
 import acEmptyState from "../assets/images/ActivityEmptyState.svg"
 
-import AcCard from "../components/AcCard"
-import ModalDelete from "../components/ModalDelete"
-import Alert from "../components/Alert"
+const AcCard = lazy(() => import("../components/AcCard"))
+const ModalDelete = lazy(() => import("../components/ModalDelete"))
+const Alert = lazy(() => import("../components/Alert"))
 
 export default function Home() {
   const [activity, setActivity ] = useState([])
