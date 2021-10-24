@@ -1,3 +1,4 @@
+import axios from "axios"
 import { useEffect, useState, lazy } from "react"
 
 import acEmptyState from "../assets/images/ActivityEmptyState.svg"
@@ -12,10 +13,9 @@ export default function Home() {
 
   useEffect( async () => {
     try {
-      const res = await fetch(
+      const { data } = await axios.get(
         "https://todo.api.devcode.gethired.id/activity-groups?email=hudadamar21%40gmail.com"
       )
-      const data = await res.json()
       setActivity(data.data)
     } catch (error) {
       console.log(error)
@@ -23,25 +23,20 @@ export default function Home() {
   }, [])
 
   const getActivity = async () => {
-    const res = await fetch(
+    const res = await axios.get(
       "https://todo.api.devcode.gethired.id/activity-groups?email=hudadamar21%40gmail.com"
     )
-    const data = await res.json()
-    setActivity(data.data)
+    setActivity(res.data.data)
   }
 
   const createActivity = async () => {
     try {
-      const res = await fetch("https://todo.api.devcode.gethired.id/activity-groups", {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          title: 'New Activity', 
-          email: 'hudadamar21@gmail.com' 
-        })
+      await axios.post(
+        "https://todo.api.devcode.gethired.id/activity-groups", { 
+        title: 'New Activity', 
+        email: 'hudadamar21@gmail.com' 
       })
-      const data = await res.json()
-      setActivity(val => [data, ...val])
+      getActivity() 
     } catch (error) {
       console.log(error);
     }
@@ -54,9 +49,9 @@ export default function Home() {
   }
 
   const handleDeleteActivity = async () => {
-    await fetch(`https://todo.api.devcode.gethired.id/activity-groups/${deleteActivityData.id}`, {
-      method: 'DELETE'
-    })
+    await axios.delete(
+      `https://todo.api.devcode.gethired.id/activity-groups/${deleteActivityData.id}`
+    )
     getActivity()
     setDeleteActivityData(null)
     setAlertMessage('Activity berhasil dihapus')

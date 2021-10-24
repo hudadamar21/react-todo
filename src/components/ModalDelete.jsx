@@ -1,12 +1,10 @@
 import { Dialog } from '@headlessui/react'
-import { useRef } from 'react'
 
 function ModalDelete({ data, handleDelete, onClose }) {
-  let completeButtonRef = useRef(null)
   return (
-    <Dialog as="div" open={!!data} initialFocus={completeButtonRef} onClose={onClose} className="fixed inset-0 z-50 grid place-items-center" >
+    <Dialog open={!!data} onClose={onClose} className="fixed inset-0 z-50 grid place-items-center" >
       <Dialog.Overlay className="fixed inset-0 z-10 bg-black/50 grid place-items-center"/>
-      <div ref={completeButtonRef} className="relative grid place-items-center bg-white p-12 pt-16 rounded-2xl z-20" data-cy="modal-delete">
+      <div className="relative grid place-items-center bg-white p-12 pt-16 rounded-2xl z-20" data-cy="modal-delete">
         <div data-cy="modal-delete-icon">
           <svg width="84" height="84" viewBox="0 0 84 84" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M42 52.5V52.535M42 31.5V38.5V31.5Z" stroke="#ED4C5C" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"/>
