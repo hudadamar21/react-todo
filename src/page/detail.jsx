@@ -8,11 +8,11 @@ import ModalDelete from '../components/ModalDelete'
 import FormModal from '../components/FormModal'
 import Alert from '../components/Alert'
 import PageTitle from '../components/PageTitle'
+import TodoSorter from "../components/TodoSorter"
+import AddButton from '../components/AddButton'
+import BackButton from '../components/BackButton'
 
 const TodoEmptyState = lazy(() => import("../components/TodoEmptyState"))
-const TodoSorter = lazy(() => import("../components/TodoSorter"))
-const AddButton = lazy(() => import('../components/AddButton'))
-const BackButton = lazy(() => import('../components/BackButton'))
 const TodoItem = lazy(() => import('../components/TodoItem'))
 
 function DetailItem() {
@@ -91,9 +91,7 @@ function DetailItem() {
     <MainLayout>
       <div className="flex items-center justify-between py-10">
         <div className="flex items-center gap-3">
-          <Suspense fallback={<div className="bg-gray-50 h-10 w-10"></div>}>
-            <BackButton/>
-          </Suspense>
+          <BackButton/>
           {!editActivityTitle 
             ? <PageTitle onClick={() => setEditActivityTitle(true)} dataCy="todo-title">
                 {activityTitle}
@@ -115,12 +113,8 @@ function DetailItem() {
           </button>
         </div>
         <div className="flex items-center gap-5">
-          <Suspense fallback={<div className="bg-gray-50 rounded-full h-10 w-10"></div>}>
-            <TodoSorter selected={sortType} getValue={changeSortBy}/> 
-          </Suspense>
-          <Suspense fallback={<div className="bg-gray-50 rounded-md h-10 w-20"></div>}>
-            <AddButton onClick={() => setOpenFormModal(true)} dataCy="todo-add-button" />
-          </Suspense>
+          <TodoSorter selected={sortType} getValue={changeSortBy}/> 
+          <AddButton onClick={() => setOpenFormModal(true)} dataCy="todo-add-button" />
         </div>
       </div>
       {
@@ -139,10 +133,10 @@ function DetailItem() {
               </Suspense>
             ))}  
           </div>
-        :  <Suspense fallback={<div className="bg-gray-50 h-64 w-1/2"></div>}>
+        : <Suspense fallback={<div className="bg-gray-50 h-64 w-1/2"></div>}>
             <TodoEmptyState/>
           </Suspense> 
-      }  
+      } 
 
       <FormModal
         isOpen={openFormModal}

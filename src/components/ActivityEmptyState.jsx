@@ -2,9 +2,9 @@ import { memo } from "react";
 
 const ActivityEmptyState = memo(() => {
   return (
-    <div className="text-center" data-cy="activity-empty-state">
-    <svg width="767" height="490" viewBox="0 0 767 490" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <g clip-path="url(#clip0_2:147)">
+    <div className="text-center w-56 h-56" data-cy="activity-empty-state">
+    <svg className="w-[500px]" viewBox="0 0 767 490" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <g clipPath="url(#clip0_2:147)">
       <path d="M183.552 477.666H194.54L199.767 435.332L183.551 435.333L183.552 477.666Z" fill="#A0616A"/>
       <path d="M180.75 474.083L202.388 474.082H202.389C206.046 474.083 209.553 475.534 212.139 478.117C214.725 480.7 216.178 484.204 216.179 487.857V488.304L180.751 488.306L180.75 474.083Z" fill="#2F2E41"/>
       <path d="M256.134 477.666H267.121L272.349 435.332L256.132 435.333L256.134 477.666Z" fill="#A0616A"/>
