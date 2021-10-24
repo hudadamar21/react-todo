@@ -1,6 +1,6 @@
 import { lazy, memo } from 'react'
 import { Listbox } from "@headlessui/react";
-const PriorityIndicator = lazy(() => import('./PriorityIndicator'))
+import PriorityIndicator from './PriorityIndicator'
 
 const ListOption = memo(({ lists, data, onChange }) => {
 
