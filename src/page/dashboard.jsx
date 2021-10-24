@@ -14,21 +14,25 @@ function Home() {
   const [ alertMessage, setAlertMessage] = useState(null)
 
   useEffect( async () => {
+    getActivity()
+    return () => setActivity([])
+  }, [])
+
+  const getActivity = () => {
     const res = await fetch(
       "https://todo.api.devcode.gethired.id/activity-groups?email=hudadamar21%40gmail.com"
     )
     const data = await res.json()
     setActivity(data.data)
-    return () => setActivity([])
-  }, [])
+  }
 
   const createActivity = async () => {
-    const { data } = await axios.post(
+    await axios.post(
       "https://todo.api.devcode.gethired.id/activity-groups", { 
       title: 'New Activity', 
       email: 'hudadamar21@gmail.com' 
     })
-    setActivity(val => [data, ...val])
+    getActivity()
   }
   
   const openDeleteModal = (e, ac) => {
@@ -41,8 +45,7 @@ function Home() {
     await axios.delete(
       `https://todo.api.devcode.gethired.id/activity-groups/${deleteActivityData.id}`
     )
-    const result = activity.filter(ac => ac.id !== deleteActivityData.id)
-    setActivity(result)
+    getActivity()
     setDeleteActivityData(null)
     setAlertMessage('Activity berhasil dihapus')
   }
