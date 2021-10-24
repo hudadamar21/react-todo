@@ -13,12 +13,12 @@ function Home() {
   const [ deleteActivityData, setDeleteActivityData] = useState(null)
   const [ alertMessage, setAlertMessage] = useState(null)
 
-  useEffect( async () => {
+  useEffect(() => {
     getActivity()
     return () => setActivity([])
   }, [])
 
-  const getActivity = () => {
+  const getActivity = async () => {
     const res = await fetch(
       "https://todo.api.devcode.gethired.id/activity-groups?email=hudadamar21%40gmail.com"
     )
