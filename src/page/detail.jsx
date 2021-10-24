@@ -3,17 +3,17 @@ import { useParams } from "react-router-dom";
 import axios from "axios"
 
 import sorting from "../utils/sorting";
-import todoEmptyState from "../assets/images/TodoEmptyState.svg"
 import MainLayout from '../layouts/MainLayout'
+import ModalDelete from '../components/ModalDelete'
+import FormModal from '../components/FormModal'
+import Alert from '../components/Alert'
 
+const TodoEmptyState = lazy(() => import("../components/TodoEmptyState"))
 const TodoSorter = lazy(() => import("../components/TodoSorter"))
 const PageTitle = lazy(() => import('../components/PageTitle'))
 const AddButton = lazy(() => import('../components/AddButton'))
-const FormModal = lazy(() => import('../components/FormModal'))
 const BackButton = lazy(() => import('../components/BackButton'))
 const TodoItem = lazy(() => import('../components/TodoItem'))
-const ModalDelete = lazy(() => import('../components/ModalDelete'))
-const Alert = lazy(() => import('../components/Alert'))
 
 function DetailItem() {
   const [ todos, setTodos ] = useState([])
@@ -102,11 +102,11 @@ function DetailItem() {
     <MainLayout>
       <div className="flex items-center justify-between py-10">
         <div className="flex items-center gap-3">
-          <Suspense fallback={<div className="bg-white h-10 w-10"></div>}>
+          <Suspense fallback={<div className="bg-gray-100 h-10 w-10"></div>}>
             <BackButton/>
           </Suspense>
           {!editActivityTitle 
-            ? <Suspense fallback={<div className="bg-white h-3 w-64"></div>}> 
+            ? <Suspense fallback={<div className="bg-gray-100 h-10 w-64"></div>}> 
                 <PageTitle onClick={() => setEditActivityTitle(true)} dataCy="todo-title">
                   {activityTitle}
                 </PageTitle>
@@ -116,7 +116,7 @@ function DetailItem() {
                 onInput={(e) => setActivityTitle(e.target.value)} 
                 type="text"
                 autoFocus
-                className="text-3xl font-bold bg-transparent focus:outline-none focus:border-b-2 border-black"
+                className="text-4xl font-bold bg-transparent focus:outline-none focus:border-b-2 border-black"
                 value={activityTitle} 
               />
           }
@@ -128,10 +128,10 @@ function DetailItem() {
           </button>
         </div>
         <div className="flex items-center gap-5">
-          <Suspense fallback={<div className="bg-white rounded-full h-10 w-10"></div>}>
+          <Suspense fallback={<div className="bg-gray-100 rounded-full h-10 w-10"></div>}>
             <TodoSorter selected={sortType} getValue={changeSortBy}/> 
           </Suspense>
-          <Suspense fallback={<div className="bg-white rounded-md h-10 w-20"></div>}>
+          <Suspense fallback={<div className="bg-gray-100 rounded-md h-10 w-20"></div>}>
             <AddButton onClick={() => setOpenFormModal(true)} dataCy="todo-add-button" />
           </Suspense>
         </div>
@@ -140,7 +140,7 @@ function DetailItem() {
         todos.length
         ? <div className="grid grid-cols-1 gap-3 pb-10">
             {todos.map(todo => (
-              <Suspense key={todo.id} fallback={<div className="bg-white rounded-md h-12 w-full"></div>}>
+              <Suspense key={todo.id} fallback={<div className="bg-gray-100 rounded-md h-12 w-full"></div>}>
                 <TodoItem 
                   key={todo.id}
                   todo={todo}
@@ -152,36 +152,30 @@ function DetailItem() {
               </Suspense>
             ))}  
           </div>
-        :  <div data-cy="todo-empty-state" className="text-center">
-            <img src={todoEmptyState} width="500" height="500" alt="todo empty state" />
-          </div>  
+        :  <Suspense fallback={<div className="bg-gray-100 h-64 w-1/2"></div>}>
+            <TodoEmptyState/>
+          </Suspense> 
       }  
 
-      <Suspense fallback={<div className="w-10 h-10 bg-white"></div>}>
-        <FormModal
-          isOpen={openFormModal}
-          onClose={() => setOpenFormModal(false)}
-          onSubmitTodo={createTodo}
-        />
-      </Suspense>
+      <FormModal
+        isOpen={openFormModal}
+        onClose={() => setOpenFormModal(false)}
+        onSubmitTodo={createTodo}
+      />  
 
-    {
-      !!deleteTodoData &&
-      <Suspense fallback={<div className="w-10 h-10 bg-white"></div>}>
+      {
+        !!deleteTodoData &&
         <ModalDelete
           data={deleteTodoData}
           onClose={() => setDeleteTodoData(null)}
           handleDelete={handleDeleteTodo}
         />
-      </Suspense>
-    }
+      }
 
-    <Suspense fallback={<div className="w-10 h-10 bg-white"></div>}>
       <Alert 
         message={alertMessage}
         onClose={() => setAlertMessage('')}
-      />
-    </Suspense>
+      />  
     </MainLayout>
   )
 }

@@ -1,4 +1,4 @@
-import { useState, lazy } from "react";
+import { useState, lazy, Suspense } from "react";
 import { memo } from 'react'
 import { Dialog } from "@headlessui/react";
 import priorityList from "../data/priority";
@@ -47,11 +47,13 @@ const FormModal = memo(({ isOpen, onClose, onSubmitTodo }) => {
               Priority
             </label>
             <div className="w-1/3">
-              <ListOption
-                lists={priorityList}
-                data={priority}
-                onChange={setPriority}
-              />
+              <Suspense fallback={<div className="bg-gray-200 h-10 w-full"></div>}>
+                <ListOption
+                  lists={priorityList}
+                  data={priority}
+                  onChange={setPriority}
+                />
+              </Suspense>
             </div>
           </div>
         </form>

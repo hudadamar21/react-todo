@@ -1,10 +1,11 @@
 import axios from "axios"
 import { useEffect, useState, lazy, Suspense } from "react"
 
-import acEmptyState from "../assets/images/ActivityEmptyState.svg"
+import ModalDelete from "../components/ModalDelete"
+import Alert from "../components/Alert"
+
+const ActivityEmptyState = lazy(() => import("../components/ActivityEmptyState"))
 const AcCard = lazy(() => import("../components/AcCard"))
-const ModalDelete = lazy(() => import("../components/ModalDelete"))
-const Alert = lazy(() => import("../components/Alert"))
 
 function Home() {
   const [activity, setActivity ] = useState([])
@@ -20,6 +21,9 @@ function Home() {
     } catch (error) {
       console.log(error)
     }
+    return () => [
+      setActivity([])
+    ]
   }, [])
 
   const getActivity = async () => {
@@ -90,28 +94,24 @@ function Home() {
                 </Suspense>
               ))}
             </div>
-          : <div className="text-center" data-cy="activity-empty-state">
-              <img src={acEmptyState} width="500" height="500" alt="activity empty state"/>
-            </div> 
+          : <Suspense fallback={<div className="bg-gray-100 h-64 w-1/2"></div>}>
+              <ActivityEmptyState/>
+            </Suspense> 
         }
 
       {
         deleteActivityData &&
-        <Suspense fallback={<div className="bg-white rounded-xl w-32 h-32"></div>}>
-          <ModalDelete
+        <ModalDelete
           data={deleteActivityData}
           onClose={() => setDeleteActivityData(null)}
           handleDelete={handleDeleteActivity}
-          />
-        </Suspense>
+        />
       }
 
-      <Suspense fallback={<div className="bg-white rounded-xl w-32 h-32"></div>}>
         <Alert 
           message={alertMessage}
           onClose={() => setAlertMessage('')}
         />
-      </Suspense>
       </main>
     </section>
   )
