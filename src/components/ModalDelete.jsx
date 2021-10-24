@@ -1,6 +1,7 @@
 import { Dialog } from '@headlessui/react'
+import { memo } from 'react'
 
-function ModalDelete({ data, handleDelete, onClose }) {
+const ModalDelete = memo(({ data, handleDelete, onClose }) => {
   return (
     <Dialog open={!!data} onClose={onClose} className="fixed inset-0 z-50 grid place-items-center" >
       <Dialog.Overlay className="fixed inset-0 z-10 bg-black/50 grid place-items-center"/>
@@ -36,6 +37,6 @@ function ModalDelete({ data, handleDelete, onClose }) {
       </div>
     </Dialog>
   )
-}
+})
 
 export default ModalDelete

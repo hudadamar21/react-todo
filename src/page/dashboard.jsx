@@ -6,7 +6,7 @@ const AcCard = lazy(() => import("../components/AcCard"))
 const ModalDelete = lazy(() => import("../components/ModalDelete"))
 const Alert = lazy(() => import("../components/Alert"))
 
-export default function Home() {
+function Home() {
   const [activity, setActivity ] = useState([])
   const [ deleteActivityData, setDeleteActivityData] = useState(null)
   const [ alertMessage, setAlertMessage] = useState(null)
@@ -110,3 +110,5 @@ export default function Home() {
     </section>
   )
 }
+
+export default Home

@@ -1,7 +1,8 @@
 import sorts from "../data/sort";
 import { Listbox } from '@headlessui/react'
+import { memo } from "react";
 
-function TodoSorter({ selected, getValue }) {
+const TodoSorter = memo(({ selected, getValue }) => {
 
   const sortIcon = <svg width="22" height="18" viewBox="0 0 22 18" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M2 6L6 2M6 2L10 6M6 2V16" stroke="#888888" strokeWidth="1.5" strokeLinecap="square"/>
@@ -28,6 +29,6 @@ function TodoSorter({ selected, getValue }) {
       </Listbox.Options>
     </Listbox>
   )
-}
+})
 
 export default TodoSorter

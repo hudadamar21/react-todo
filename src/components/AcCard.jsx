@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { Link } from "react-router-dom";
 
-function AcCard ({ index, id, title, created_at, onDelete }) {
+const AcCard = memo(({ index, id, title, created_at, onDelete }) => {
   const formatDate = (date) => {
     const list = ['Januari', 'Februari', 'Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember']
     const tanggal = new Date(date).getDate()
@@ -31,6 +32,6 @@ function AcCard ({ index, id, title, created_at, onDelete }) {
       </div>
     </Link>
   )
-}
+})
 
 export default AcCard

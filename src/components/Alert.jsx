@@ -1,7 +1,8 @@
+import { memo } from 'react'
 import { Dialog } from '@headlessui/react'
 import alertIcon from "../assets/icons/alert.svg"
 
-function Alert({ message , onClose}) {
+const Alert = memo(({ message , onClose}) => {
   return message &&
   <Dialog open={!!message} onClose={onClose} className="fixed inset-0 z-10 grid place-items-center">
     <Dialog.Overlay className="fixed z-10 inset-0 grid place-items-center bg-black/50"/>
@@ -10,6 +11,6 @@ function Alert({ message , onClose}) {
       <Dialog.Title data-cy="modal-information-title">{message}</Dialog.Title>
     </div>
   </Dialog>
-}
+})
 
 export default Alert

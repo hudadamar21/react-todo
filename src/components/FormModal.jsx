@@ -1,10 +1,11 @@
 import { useState, lazy } from "react";
+import { memo } from 'react'
 import { Dialog } from "@headlessui/react";
 import priorityList from "../data/priority";
 
 const ListOption = lazy(() => import('./ListOption'))
 
-function FormModal({ isOpen, onClose, onSubmitTodo }) {
+const FormModal = memo(({ isOpen, onClose, onSubmitTodo }) => {
   const [ name, setName ] = useState('')
   const [ priority, setPriority ] = useState('very-high')
 
@@ -68,6 +69,6 @@ function FormModal({ isOpen, onClose, onSubmitTodo }) {
     </Dialog>
     
   )
-}
+})
 
 export default FormModal

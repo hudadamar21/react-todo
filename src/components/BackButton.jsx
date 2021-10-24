@@ -1,6 +1,7 @@
+import { memo } from "react";
 import { Link } from "react-router-dom";
 
-function BackButton() {
+const BackButton = memo(() => {
   return (
     <Link to="/">
       <div className="grid place-items-center h-12 w-12 rounded-full hover:bg-gray-200 cursor-pointer" data-cy="todo-back-button">
@@ -11,6 +12,6 @@ function BackButton() {
       </div>
     </Link>
   )
-}
+})
 
 export default BackButton

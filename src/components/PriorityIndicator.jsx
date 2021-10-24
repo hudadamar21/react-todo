@@ -1,4 +1,6 @@
-function PriorityIndicator (props){
+import { memo } from "react"
+
+const PriorityIndicator = memo((props) => {
 
   const classIndicator = 
     props.priority === 'very-high' ? 'bg-red-500'
@@ -9,6 +11,6 @@ function PriorityIndicator (props){
       : 'bg-white'
 
   return <div {...props} className={`${classIndicator} rounded-full h-4 w-4`}></div>
-}
+})
 
 export default PriorityIndicator

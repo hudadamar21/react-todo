@@ -33,6 +33,11 @@ function DetailItem() {
     )
     setActivityTitle(data.title)
     setTodos(data.todo_items)
+
+    return () => {
+      setActivityTitle('')
+      setTodos([])
+    }
   }, [])
 
   const changeSortBy = (value) => {
