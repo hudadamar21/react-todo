@@ -1,4 +1,4 @@
-import axios from "axios"
+// import axios from "axios"
 import { useEffect, useState, lazy, Suspense } from "react"
 
 import ModalDelete from "../components/ModalDelete"
@@ -27,10 +27,13 @@ function Home() {
   }
 
   const createActivity = async () => {
-    await axios.post(
-      "https://todo.api.devcode.gethired.id/activity-groups", { 
-      title: 'New Activity', 
-      email: 'hudadamar21@gmail.com' 
+    await fetch("https://todo.api.devcode.gethired.id/activity-groups", {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        title: 'New Activity', 
+        email: 'hudadamar21@gmail.com' 
+      })
     })
     getActivity()
   }
@@ -42,9 +45,9 @@ function Home() {
   }
 
   const handleDeleteActivity = async () => {
-    await axios.delete(
-      `https://todo.api.devcode.gethired.id/activity-groups/${deleteActivityData.id}`
-    )
+    await fetch(`https://todo.api.devcode.gethired.id/activity-groups/${deleteActivityData.id}`, {
+      method: 'DELETE'
+    })
     getActivity()
     setDeleteActivityData(null)
     setAlertMessage('Activity berhasil dihapus')
