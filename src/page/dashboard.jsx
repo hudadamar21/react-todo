@@ -2,7 +2,6 @@ import axios from "axios"
 import { useEffect, useState, lazy } from "react"
 
 import acEmptyState from "../assets/images/ActivityEmptyState.svg"
-
 const AcCard = lazy(() => import("../components/AcCard"))
 const ModalDelete = lazy(() => import("../components/ModalDelete"))
 const Alert = lazy(() => import("../components/Alert"))
