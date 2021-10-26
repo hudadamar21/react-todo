@@ -4,19 +4,15 @@ import {
   Route
 } from "react-router-dom";
 
-import Dasboard from "./page/dashboard"
-import Detail from "./page/detail"
+import Dashboard from './page/dashboard'
+import Detail from './page/detail'
 
 function App() {
   return (
     <Router>
       <Switch>
-        <Route path="/detail/:id">
-          <Detail />
-        </Route>
-        <Route path="/">
-          <Dasboard />
-        </Route>
+        <Route path="/detail/:id" component={Detail} />
+        <Route path="/" component={Dashboard} />
       </Switch>
     </Router>
   )

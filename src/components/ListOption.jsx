@@ -1,4 +1,4 @@
-import { lazy, memo } from 'react'
+import { memo } from 'react'
 import { Listbox } from "@headlessui/react";
 import PriorityIndicator from './PriorityIndicator'
 

@@ -1,8 +1,8 @@
-import { lazy, memo } from "react"
+import { memo } from "react"
 
-const PriorityIndicator =  lazy(() => import('./PriorityIndicator'))
+import PriorityIndicator from './PriorityIndicator'
 
-const TodoItem = memo(({ todo, onChangeIsActive, onDelete }) => {
+const TodoItem = memo(({ todo, onChangeIsActive, onDelete, onEdit }) => {
 
   const editIcon = <svg className="w-6 h-6" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83l3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z" fill="#666"></path></svg>
 
@@ -18,7 +18,7 @@ const TodoItem = memo(({ todo, onChangeIsActive, onDelete }) => {
       <p data-cy="todo-item-title" className={`text-xl font-bold ${!todo.is_active && 'line-through opacity-50'}`}>
         {todo.title}
       </p>
-      <button data-cy="todo-item-edit-button">
+      <button onClick={() => onEdit(todo)} data-cy="todo-item-edit-button">
         {editIcon}
       </button>
       <button data-cy="todo-item-delete-button" onClick={() => onDelete(todo)} className="absolute top-1/2 -translate-y-1/2 right-5 h-full w-14 grid place-items-center">
