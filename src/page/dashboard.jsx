@@ -1,12 +1,12 @@
 import { lazy, Suspense, useEffect, useState } from "react"
+import useActivity from "../services/useActivity"
+
 import ModalDelete from "../components/ModalDelete"
 import Alert from "../components/Alert"
-import useActivity from "../services/useActivity"
-import MainLayout from "../layouts/MainLayout"
+import AcCard from "../components/AcCard"
+import AddButton from "../components/AddButton"
 
-const AddButton = lazy(() => import("../components/AddButton"))
 const ActivityEmptyState = lazy(() => import("../components/ActivityEmptyState"))
-const AcCard = lazy(() => import("../components/AcCard"))
 
 function Home() {
   const [activity, setActivity ] = useState([])
@@ -25,10 +25,7 @@ function Home() {
   }
 
   const createActivity = async () => {
-    await Activity.create({ 
-      title: 'New Activity', 
-      email: 'hudadamar21@gmail.com' 
-    })
+    await Activity.create({ title: 'New Activity', email: 'hudadamar21@gmail.com' })
     getActivity()
   }
   
@@ -46,48 +43,44 @@ function Home() {
     setAlertMessage('Activity berhasil dihapus')
   }
 
-  return (
-    <MainLayout>
-      <div className="flex items-center justify-between py-10">
-        <h1 className="text-4xl font-bold" data-cy="activity-title">
-          Activity
-        </h1>
-        <Suspense fallback={<div></div>}>
-          <AddButton onClick={createActivity} dataCy="activity-add-button" />
-        </Suspense>
-      </div>
-      {
-        activity.length
-        ? <div className="grid gap-3 pb-10 grid-cols-4">
-            {activity.map((ac, index) => (
-              <Suspense key={ac.id} fallback={<div>load..</div>}>
-                <AcCard 
-                  key={ac.id} 
-                  index={index} 
-                  onDelete={(e) => openDeleteModal(e, ac)}
-                  {...ac} 
-                />
-              </Suspense>
-            ))}
-          </div>
-        : <Suspense fallback={<div></div>}><ActivityEmptyState/></Suspense>
-      }
+  return <>
+    <div className="flex items-center justify-between py-10">
+      <h1 className="text-4xl font-bold" data-cy="activity-title">
+        Activity
+      </h1>
+      <Suspense fallback={<div></div>}>
+        <AddButton onClick={createActivity} dataCy="activity-add-button" />
+      </Suspense>
+    </div>
+    {
+      activity.length
+      ? <div className="grid gap-3 pb-10 grid-cols-4">
+          {activity.map((ac, index) => (
+            <AcCard 
+              key={ac.id} 
+              index={index} 
+              onDelete={(e) => openDeleteModal(e, ac)}
+              {...ac} 
+            />
+          ))}
+        </div>
+      : <Suspense fallback={<div></div>}><ActivityEmptyState/></Suspense>
+    }
 
-      {
-        deleteActivityData &&
-        <ModalDelete
-          data={deleteActivityData}
-          onClose={() => setDeleteActivityData(null)}
-          handleDelete={handleDeleteActivity}
-        />
-      }
+    {
+      deleteActivityData &&
+      <ModalDelete
+        data={deleteActivityData}
+        onClose={() => setDeleteActivityData(null)}
+        handleDelete={handleDeleteActivity}
+      />
+    }
 
-        <Alert 
-          message={alertMessage}
-          onClose={() => setAlertMessage('')}
-        />
-    </MainLayout>
-  )
+    <Alert 
+      message={alertMessage}
+      onClose={() => setAlertMessage('')}
+    />
+  </>
 }
 
 export default Home
